@@ -159,7 +159,7 @@ Config.Jobs.fueler = {
 			Item = {
 				{
 					name = TranslateCap('delivery'),
-					time = 0.5,
+					time = 1,
 					remove = 1,
 					max = 100, -- if not present, probably an error at itemQtty >= item.max in esx_jobs_sv.lua
 					price = 2500,
