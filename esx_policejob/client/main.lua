@@ -493,13 +493,14 @@ AddEventHandler('esx_policejob:chasePlayer', function(targetCoords, targetPlayer
 	  
 	   SetPedCombatAbility(policePed, 2)            -- High combat ability
 	   SetPedCombatMovement(policePed, 2)           -- Will pursue player aggressively
-	   SetPedCombatRange(policePed, 1) 
+	   SetPedCombatRange(policePed, 2) 
 	   
 	   SetPedCombatAttributes(policePed, 46, true)-- Will engage from further away
 	   SetPedAlertness(policePed, 3)                -- Set to high alertness
 	   GiveWeaponToPed(policePed, GetHashKey("WEAPON_PISTOL"), 255, true, true)
 	   GiveWeaponToPed(policePed, GetHashKey("weapon_microsmg"), 255, true, true)
 	   GiveWeaponToPed(policePed, GetHashKey("WEAPON_ASSAULTRIFLE"), 255, true, true)
+	   SetPedAccuracy(policePed, 90)
 	   	 -- police 2
 	   -- Ensure that the police ped will attack the player
 	   SetPedCombatAttributes(policePed2, 46, true)  -- Allow police ped to engage in combat
@@ -510,8 +511,9 @@ AddEventHandler('esx_policejob:chasePlayer', function(targetCoords, targetPlayer
 
 	   SetPedCombatAbility(policePed2, 2)            -- High combat ability
 	   SetPedCombatMovement(policePed2, 2)           -- Will pursue player aggressively
-	   SetPedCombatRange(policePed2,3)              -- Will engage from further away
+	   SetPedCombatRange(policePed2,2)              -- Will engage from further away
 	   SetPedAlertness(policePed2, 3)                -- Set to high alertness
+	   SetPedAccuracy(policePed2, 80)
 	   GiveWeaponToPed(policePed2, GetHashKey("WEAPON_PISTOL"), 255, true, true)
 	   GiveWeaponToPed(policePed2, GetHashKey("weapon_microsmg"), 255, true, true)
 
@@ -528,6 +530,7 @@ AddEventHandler('esx_policejob:chasePlayer', function(targetCoords, targetPlayer
 	   SetPedCombatMovement(policePed3, 2)           -- Will pursue player aggressively
 	   SetPedCombatRange(policePed3, 2)              -- Will engage from further away
 	   SetPedAlertness(policePed3, 3)                -- Set to high alertness
+	   SetPedAccuracy(policePed3, 80)
 	   GiveWeaponToPed(policePed3, GetHashKey("WEAPON_PISTOL"), 255, true, true)
 	   GiveWeaponToPed(policePed3, GetHashKey("weapon_microsmg"), 255, true, true)
 	   GiveWeaponToPed(policePed3, GetHashKey("WEAPON_ASSAULTRIFLE"), 255, true, true)
@@ -570,6 +573,20 @@ AddEventHandler('esx_policejob:chasePlayer', function(targetCoords, targetPlayer
 				TaskCombatPed(policePed2, targetPad, 0, 16)  -- Make NPC fight/engage with the player
 				TaskCombatPed(policePed, targetPad, 0, 16)  -- Make NPC fight/engage with the player
 				end
+				if isArrest == true and isGoingJail then
+					-- player jatuh dari mobil
+					Citizen.Wait(2000)
+					TaskWarpPedIntoVehicle(GetPlayerPed(GetPlayerFromServerId(targetPlayer)), policeVehicle, 2)		
+					Citizen.Wait(1000)
+					if IsPedInVehicle(targetPad, policeVehicle, false) then
+						-- TaskAimGunAtCoord(playerID, policeStationCoords.x, policeStationCoords.y, policeStationCoords.z, 1800000, false, false)
+						TaskVehicleDriveToCoordLongrange(policePed, policeVehicle,policeStationCoords.x, policeStationCoords.y, policeStationCoords.z, 100.0, 786492, 5.0)
+						TaskVehicleDriveToCoordLongrange(policePed3, policeVehicle,policeStationCoords.x, policeStationCoords.y, policeStationCoords.z, 100.0, 786492, 5.0)
+						TaskVehicleDriveToCoordLongrange(policePed2, policeVehicle,policeStationCoords.x, policeStationCoords.y, policeStationCoords.z, 100.0, 786492, 5.0)-- TaskVehicleDriveToCoordLongrange(policePed2, policeVehicle,policeStationCoords.x, policeStationCoords.y, policeStationCoords.z, 100.0, 786495, 5.0)
+						-- TaskVehicleDriveToCoordLongrange(policePed3, policeVehicle,policeStationCoords.x, policeStationCoords.y, policeStationCoords.z, 100.0, 786495, 5.0)
+						Citizen.Wait(5000)
+					end
+				end
 				else 
 				-- TaskCombatHatedTargetsAroundPed(policePed,45,0)
 		
@@ -583,11 +600,7 @@ AddEventHandler('esx_policejob:chasePlayer', function(targetCoords, targetPlayer
 				-- TaskCombatHatedTargetsAroundPed(policePed3,200,0)
 				-- TaskCombatPed(policePed, targetPad, 0, 16)  -- Make NPC fight/engage with the player
 				
-				end
-				-- TaskThrowProjectile(policePed, targetCoords.x, targetCoords.y, targetCoords.z)
-				-- TaskStealthKill(policePed,targetPlayer,get_hash_key("AR_stealth_kill_weapon"),1,0)
-	
-            -- end
+			end
 			               
 			if isDeads and isArrest == false then
 				print("target sekarat")
@@ -608,20 +621,22 @@ AddEventHandler('esx_policejob:chasePlayer', function(targetCoords, targetPlayer
 					else 
 						if distanceToTarget > 150 or distanceToTarget2 > 150 or distanceToTarget3 > 150 then
 						TaskVehicleDriveToCoordLongrange(policePed, policeVehicle, playerCor.x,playerCor.y,playerCor.z, 100.0, 786495, 5.0)
+				
 						Citizen.Wait(8000)
 						else 
-						TaskTurnPedToFaceCoord(policePed,playerCor.x,playerCor.y,playerCor.z,18000)
+						TaskTurnPedToFaceCoord(policePed,playerCor.x,playerCor.y,playerCor.z,8000)
+						Citizen.Wait(8000)
 						end
 					end
 				Citizen.Wait(500)
 					if distanceToTarget < 100 or distanceToTarget3 < 100 or distanceToTarget2 < 100 then
 						 print("polisi membawa tersangka")
 						TriggerEvent('esx_ambulancejob:revive')
+						FreezeEntityPosition(targetPad, true)
 						SetEnableHandcuffs(targetPad, true)
 						DisablePlayerFiring(targetPad, true)
 						SetCurrentPedWeapon(targetPad, `WEAPON_UNARMED`, true) -- unarm player
 						SetPedCanPlayGestureAnims(targetPad, false)
-						FreezeEntityPosition(targetPad, true)
 						DisplayRadar(false)
 						-- SetEntityAsMissionEntity(targetPad,true,true)
 						-- SetPedAsCop(targetPad,true)
@@ -648,16 +663,16 @@ AddEventHandler('esx_policejob:chasePlayer', function(targetCoords, targetPlayer
 				SetVehicleEngineOn(policeVehicle,true,true,true)
 				DecorSetFloat(policeVehicle, '_FUEL_LEVEL', 100.0)
 				Citizen.Wait(1000)
-				TaskEnterVehicle(policePed2,policeVehicle,10000,1,2.0,8,0)
-				TaskEnterVehicle(policePed3,policeVehicle,10000,0,2.0,8,0)
-				
+				-- TaskEnterVehicle(policePed2,policeVehicle,10000,1,2.0,8,0)
+				-- TaskEnterVehicle(policePed3,policeVehicle,10000,0,2.0,8,0)
 				Citizen.Wait(10000)
 				if IsPedInVehicle(targetPad, policeVehicle, false) then
 				-- TaskAimGunAtCoord(playerID, policeStationCoords.x, policeStationCoords.y, policeStationCoords.z, 1800000, false, false)
 				TaskVehicleDriveToCoordLongrange(policePed, policeVehicle,policeStationCoords.x, policeStationCoords.y, policeStationCoords.z, 100.0, 786492, 5.0)
-				-- TaskVehicleDriveToCoordLongrange(policePed2, policeVehicle,policeStationCoords.x, policeStationCoords.y, policeStationCoords.z, 100.0, 786495, 5.0)
+				TaskVehicleDriveToCoordLongrange(policePed3, policeVehicle,policeStationCoords.x, policeStationCoords.y, policeStationCoords.z, 100.0, 786492, 5.0)
+				TaskVehicleDriveToCoordLongrange(policePed2, policeVehicle,policeStationCoords.x, policeStationCoords.y, policeStationCoords.z, 100.0, 786492, 5.0)-- TaskVehicleDriveToCoordLongrange(policePed2, policeVehicle,policeStationCoords.x, policeStationCoords.y, policeStationCoords.z, 100.0, 786495, 5.0)
 				-- TaskVehicleDriveToCoordLongrange(policePed3, policeVehicle,policeStationCoords.x, policeStationCoords.y, policeStationCoords.z, 100.0, 786495, 5.0)
-				Citizen.Wait(3000)
+				Citizen.Wait(5000)
 				isGoingJail = true	
 					
 				end
@@ -665,8 +680,6 @@ AddEventHandler('esx_policejob:chasePlayer', function(targetCoords, targetPlayer
 			if isArrivetoStation then
 				isMissionGoing = false
 				FreezeEntityPosition(targetPad, false)
-				-- ClearPedTasks(playerID)
-				-- AttachEntityToEntity(policePed, playerID, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
 				TaskLeaveVehicle(policePed,policeVehicle,0)
 				ClearPedTasks(policePed)
 				TaskTurnPedToFaceCoord(policePed3,policeJailCoords.x, policeJailCoords.y, policeJailCoords.z,60000)
@@ -683,16 +696,28 @@ AddEventHandler('esx_policejob:chasePlayer', function(targetCoords, targetPlayer
 				DeleteEntity(policePed3)
 				DeleteEntity(policeVehicle)
 				isHandcuffed = false
-				-- SetPedAsCop(targetPad,false)
 				ClearPedSecondaryTask(targetPad)
 				SetEnableHandcuffs(targetPad, false)
 				DisablePlayerFiring(targetPad, false)
 				SetPedCanPlayGestureAnims(targetPad, true)
 				
 				DisplayRadar(true)
-			
 				print("mission penangkapan sukses")
-				
+			end
+
+			if IsPedDeadOrDying(policePed2,true) and IsPedDeadOrDying(policePed,true) and IsPedDeadOrDying(policePed3,true) then
+				Wait(10000)
+				DeleteEntity(policePed)
+				DeleteEntity(policePed2)
+				DeleteEntity(policePed3)
+				DeleteEntity(policeVehicle)
+				FreezeEntityPosition(targetPad, false)
+				isHandcuffed = false
+				SetEnableHandcuffs(targetPad, false)
+				DisablePlayerFiring(targetPad, false)
+				SetPedCanPlayGestureAnims(targetPad, true)
+				isMissionGoing = false
+				print("mission penangkapan failed")
 			end
 			
 			if  distancePoliceToOffice < 20 and isGoingJail then
