@@ -13,6 +13,14 @@ ESX.RegisterServerCallback('esx_robbery:giveMoneyBag', function(source, cb)
     end
 end)
 
+RegisterServerEvent('esx_robbery:completeStockadeRobbery')
+AddEventHandler('esx_robbery:completeStockadeRobbery', function()
+    local xPlayer = ESX.GetPlayerFromId(source)
+    -- Add your reward logic here
+    xPlayer.addInventoryItem('money_bag', 1)
+    TriggerClientEvent('esx:showNotification', source, "You've successfully robbed the Stockade!")
+end)
+
 -- Load the money bag into a vehicle or inventory
 RegisterServerEvent('esx_robbery:loadMoneyBag')
 AddEventHandler('esx_robbery:loadMoneyBag', function()

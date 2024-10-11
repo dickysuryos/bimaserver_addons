@@ -103,6 +103,7 @@ Config.Jobs.miner = {
 				{
 					name = TranslateCap('m_iron'),
 					db_name = 'iron',
+					time = 4,
 					max = 42,
 					add = 6,
 					drop = 100
@@ -110,6 +111,7 @@ Config.Jobs.miner = {
 				{
 					name = TranslateCap('m_gold'),
 					db_name = 'gold',
+					time = 4,
 					max = 21,
 					add = 3,
 					drop = 100
@@ -117,6 +119,7 @@ Config.Jobs.miner = {
 				{
 					name = TranslateCap('m_diamond'),
 					db_name = 'diamond',
+					time = 4,
 					max = 50,
 					add = 1,
 					drop = 5
